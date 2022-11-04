@@ -7,15 +7,17 @@ const cors = require("cors")
 
 const app = express()
 
-app.use( cors( {
-	allowedHeaders: ['Content-Type', 'Authorization'],
-	origin: ['http://localhost:3000'],
-	credentials: true,
-}))
+app.use(
+	cors({
+		allowedHeaders: ["Content-Type", "Authorization"],
+		origin: ["http://localhost:3000"],
+		credentials: true,
+	})
+)
 
 app.use(express.json())
 
-app.use("/", require("./routes/timeseriesRoute"))
-
+app.use("/timeseries", require("./routes/timeseriesRoute"))
+app.use("/resident", require("./routes/residentsRoute"))
 
 module.exports = app

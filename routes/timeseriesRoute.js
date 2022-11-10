@@ -8,5 +8,6 @@ router.get("/predict", timeseriesController.predict)
 router.get("/group", timeseriesController.group)
 router.get("/realData", timeseriesController.realTimeSeriesData)
 router.get("/fakeData", timeseriesController.fakeTimeSeriesData)
+router.post("/postman", timeseriesController.postman)
 
 module.exports = router

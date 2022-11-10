@@ -1,4 +1,5 @@
-const timeseriesModel = require("../models/Timeseries")
+const timeseriesModel = require( "../models/Timeseries" )
+
 
 exports.read = async (req, res) => {
 	timeseriesModel.find({}, (err, result) => {
@@ -84,6 +85,10 @@ exports.group = async (req, res) => {
 	})
 }
 
+exports.postman = async (req, res) => {
+	console.log( "somthing", req.body )
+	res.send(req.body)
+}
 exports.realTimeSeriesData = async (req, res) => {
 	//this is in use, gives hourly count of vehicles
 	const aggg = [
@@ -146,14 +151,19 @@ exports.fakeTimeSeriesData = async (req, res) => {
 			dummyVehicles.push(Math.floor(Math.random(1, 40) * j))
 		}
 	}
+	// const datagot = {}
 	const datagot = []
 
+	// for (var i = 0; i < dates.length; i++) {
+	// 	datagot[dates[i].getTime()] = dummyVehicles[i]
+	// }
 	for (var i = 0; i < dates.length; i++) {
 		datagot.push({
-			count: dummyVehicles[i],
-			date: dates[i],
+			timestamp: dates[i].getTime(),
+			value: dummyVehicles[i],
 		})
 	}
+	console.log(datagot)
 
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {

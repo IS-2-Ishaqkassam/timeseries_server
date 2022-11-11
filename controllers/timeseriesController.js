@@ -1,5 +1,6 @@
-const timeseriesModel = require( "../models/Timeseries" )
-
+const timeseriesModel = require("../models/Timeseries")
+const tempModel = require("../models/Temp")
+const Temp = require("../models/Temp")
 
 exports.read = async (req, res) => {
 	timeseriesModel.find({}, (err, result) => {
@@ -86,8 +87,26 @@ exports.group = async (req, res) => {
 }
 
 exports.postman = async (req, res) => {
-	console.log( "somthing", req.body )
-	res.send(req.body)
+	console.log("somthing", req.body)
+	const forecastData = []
+	const { forecast } = req.body
+
+	for (var i = 0; i < req.body.forecast.length; i++) {
+		forecastData.push(req.body.forecast[i])
+	}
+	console.log(forecast)
+
+	try {
+		await Temp.create({
+			timestamp: 2354234525,
+			value: 32,
+		})
+		return res.status(200).json({
+			message: "success",
+		})
+	} catch (err) {
+		return res.status(400).json(err)
+	}
 }
 exports.realTimeSeriesData = async (req, res) => {
 	//this is in use, gives hourly count of vehicles
@@ -139,6 +158,8 @@ exports.realTimeSeriesData = async (req, res) => {
 	})
 }
 
+exports.callbackFunction = async (req, res) => {}
+
 exports.fakeTimeSeriesData = async (req, res) => {
 	var date = new Date()
 	dates = []
@@ -167,7 +188,7 @@ exports.fakeTimeSeriesData = async (req, res) => {
 
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {
-		totalCars = totalCars + datagot[i].count
+		totalCars = totalCars + datagot[i].value
 	}
 	console.log("total cars", totalCars)
 	res.json({

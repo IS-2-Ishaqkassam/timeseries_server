@@ -19,5 +19,6 @@ app.use(express.json())
 
 app.use("/timeseries", require("./routes/timeseriesRoute"))
 app.use("/resident", require("./routes/residentsRoute"))
+app.use("/jobs", require("./routes/jobsRoute"))
 
 module.exports = app

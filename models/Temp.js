@@ -1,13 +1,13 @@
 const mongoose = require("mongoose")
 
 const tempSchema = new mongoose.Schema(
-	{
-		timestamp: {
-			type: Number,
+	[
+		{
+			timestamp: Number,
+			value: Number,
 		},
-		value: Number,
-	},
-	{ strict: false }
+	],
+	{ timestamps: true }
 )
 
 var Temp = mongoose.model("Temp", tempSchema)

@@ -1,6 +1,5 @@
 const timeseriesModel = require("../models/Timeseries")
 const tempModel = require("../models/Temp")
-const Temp = require("../models/Temp")
 
 exports.read = async (req, res) => {
 	timeseriesModel.find({}, (err, result) => {
@@ -87,19 +86,16 @@ exports.group = async (req, res) => {
 }
 
 exports.postman = async (req, res) => {
-	console.log("somthing", req.body)
-	const forecastData = []
-	const { forecast } = req.body
-
-	for (var i = 0; i < req.body.forecast.length; i++) {
-		forecastData.push(req.body.forecast[i])
-	}
-	console.log(forecast)
+	const data = new tempModel({
+		timestamp: 2354234525,
+		value: 32,
+	})
 
 	try {
-		await Temp.create({
-			timestamp: 2354234525,
-			value: 32,
+		await data.save()
+		await tempModel.create({
+			timestamp: 5454234525,
+			value: 12,
 		})
 		return res.status(200).json({
 			message: "success",

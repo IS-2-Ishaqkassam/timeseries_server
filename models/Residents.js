@@ -3,13 +3,14 @@ const mongoose = require("mongoose")
 const ResidentSchema = new mongoose.Schema({
 	resident_name: String,
 	resident_email: String,
-	house_number: String,
-	vehicle_details: [
+	resident_house_number: String,
+
+	vehicles: [
 		{
-			vehicle_model: String,
+			vehicle_number_plate: String,
 			vehicle_make: String,
+			vehicle_model: String,
 			vehicle_color: String,
-			number_plate: String,
 		},
 	],
 })

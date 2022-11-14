@@ -4,6 +4,8 @@ exports.createResident = async (req, res) => {
 	const { resident_name, resident_email, resident_house_number, vehicles } =
 		req.body
 
+	console.log(req.body)
+
 	try {
 		await residentsModel.create({
 			resident_name,

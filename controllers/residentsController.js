@@ -37,6 +37,7 @@ exports.getAllResidents = async (req, res) => {
 		})
 	} catch (err) {}
 }
+
 exports.getOneResident = async (req, res) => {
 	const { id } = req.params
 	console.log(req.params)
@@ -54,6 +55,7 @@ exports.getOneResident = async (req, res) => {
 		})
 	} catch (err) {}
 }
+
 exports.editResident = async (req, res) => {
 	const { id } = req.params
 	const { resident_name, resident_email, resident_house_number } = req.body

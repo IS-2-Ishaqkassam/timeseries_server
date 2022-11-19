@@ -1,12 +1,16 @@
 const mongoose = require("mongoose")
 
 const tempSchema = new mongoose.Schema(
-	[
-		{
-			timestamp: Number,
-			value: Number,
-		},
-	],
+	{
+		job_id: String,
+		forecast: [
+			{
+				value: Number,
+				timestamp: Number,
+			},
+		],
+	},
+
 	{ timestamps: true }
 )
 

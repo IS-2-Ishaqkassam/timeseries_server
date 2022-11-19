@@ -21,5 +21,6 @@ app.use("/timeseries", require("./routes/timeseriesRoute"))
 app.use("/resident", require("./routes/residentsRoute"))
 app.use("/jobs", require("./routes/jobsRoute"))
 app.use("/vehicle", require("./routes/vehiclesRoute"))
+app.use("/forecast", require("./routes/forecastRoute"))
 
 module.exports = app

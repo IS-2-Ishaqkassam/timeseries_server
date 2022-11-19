@@ -154,16 +154,15 @@ exports.realTimeSeriesData = async (req, res) => {
 	})
 }
 
-exports.callbackFunction = async (req, res) => {}
 
 exports.fakeTimeSeriesData = async (req, res) => {
 	var date = new Date()
 	dates = []
-	for (var i = 0; i < 336; i += 1) {
+	for (var i = 0; i < 2160; i += 1) {
 		dates.push(new Date(date.valueOf() + i * 1000 * 60 * 60 * 1))
 	}
 	const dummyVehicles = []
-	for (var i = 0; i < 336; i++) {
+	for (var i = 0; i < 2160; i++) {
 		for (var j = 0; j < 40; j++) {
 			dummyVehicles.push(Math.floor(Math.random(1, 40) * j))
 		}
@@ -181,6 +180,43 @@ exports.fakeTimeSeriesData = async (req, res) => {
 		})
 	}
 	console.log(datagot)
+
+	var totalCars = 0
+	for (var i = 0; i < datagot.length; i++) {
+		totalCars = totalCars + datagot[i].value
+	}
+	console.log("total cars", totalCars)
+	res.json({
+		timeseries: datagot,
+		totalCars,
+	})
+}
+exports.datefakeTimeSeriesData = async (req, res) => {
+	var date = new Date()
+	var dates = []
+	for (var i = 0; i < 2160; i += 1) {
+		dates.push(new Date(date.valueOf() + i * 1000 * 60 * 60 * 1).toLocaleString())
+	}
+	const dummyVehicles = []
+	for (var i = 0; i < 2160; i++) {
+		for (var j = 0; j < 40; j++) {
+			dummyVehicles.push(Math.floor(Math.random(1, 40) * j))
+		}
+	}
+	// const datagot = {}
+	console.log("dates", dates)
+	const datagot = []
+
+	// for (var i = 0; i < dates.length; i++) {
+	// 	datagot[dates[i].getTime()] = dummyVehicles[i]
+	// }
+	for (var i = 0; i < dates.length; i++) {
+		datagot.push({
+			timestamp: dates[i],
+			count: dummyVehicles[i],
+		})
+	}
+	// console.log(datagot)
 
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {

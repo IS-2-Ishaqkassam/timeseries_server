@@ -2,7 +2,7 @@ const jobModel = require("../models/Jobs")
 
 exports.createJob = async (req, res) => {
 	const { id, date } = req.body.data
-	console.log(req.body.data)
+	console.log("create job", req.body.data)
 
 	try {
 		await jobModel.create({

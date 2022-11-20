@@ -20,3 +20,20 @@ exports.getForecast = async (req, res) => {
 		console.log("error in getForecast", error)
 	}
 }
+
+exports.postForecast = async (req, res) => {
+	console.log("create forecast", req.body.data)
+
+	try {
+		await jobModel.create(req.body.data)
+
+		res.status(200).json({
+			message: "success",
+		})
+	} catch (err) {
+		res.status(404).json({
+			message: "error",
+			detail: err.message,
+		})
+	}
+}

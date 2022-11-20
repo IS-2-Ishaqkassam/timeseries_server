@@ -142,6 +142,20 @@ exports.realTimeSeriesData = async (req, res) => {
 	var resultss = await cursorr
 	// date.format("%w-%d-%m-%Y-%H")//dayofweek(startingfromsunday)-day-month-year-hour
 	console.log("real results", resultss)
+	const detailedBreakDown = []
+	for (var i = 0; i < resultss.length; i++) {
+		detailedBreakDown.push({
+			dayOfWeek: new Date(resultss[i].date).getDay(),
+			data: {
+				hourOfDay: new Date(resultss[i].date).getHours(),
+				count: resultss[i].count,
+				month: new Date(resultss[i].date).getMonth() + 1,
+				date: new Date(resultss[i].date).getDate(),
+				year: new Date(resultss[i].date).getFullYear(),
+			},
+		})
+	}
+	console.log("ishaq", detailedBreakDown)
 
 	var totalCars = 0
 	for (var i = 0; i < resultss.length; i++) {
@@ -149,7 +163,7 @@ exports.realTimeSeriesData = async (req, res) => {
 	}
 	console.log("total cars", totalCars)
 	res.json({
-		timeseries: resultss,
+		timeseries: detailedBreakDown,
 		totalCars,
 	})
 }
@@ -157,11 +171,11 @@ exports.realTimeSeriesData = async (req, res) => {
 exports.fakeTimeSeriesData = async (req, res) => {
 	var date = new Date()
 	var dates = []
-	for (var i = 0; i < 400; i += 1) {
+	for (var i = 0; i < 672; i += 1) {
 		dates.push(new Date(date.valueOf() + i * 1000 * 60 * 60 * 1))
 	}
 	const dummyVehicles = []
-	for (var i = 0; i < 400; i++) {
+	for (var i = 0; i < 672; i++) {
 		for (var j = 0; j < 40; j++) {
 			dummyVehicles.push(Math.floor(Math.random(1, 40) * j))
 		}
@@ -175,12 +189,27 @@ exports.fakeTimeSeriesData = async (req, res) => {
 		})
 	}
 
+	const detailedBreakDown = []
+	for (var i = 0; i < datagot.length; i++) {
+		detailedBreakDown.push({
+			dayOfWeek: new Date(datagot[i].timestamp).getDay(),
+			data: {
+				hourOfDay: new Date(datagot[i].timestamp).getHours(),
+				count: datagot[i].value,
+				month: new Date(datagot[i].timestamp).getMonth() + 1,
+				date: new Date(datagot[i].timestamp).getDate(),
+				year: new Date(datagot[i].timestamp).getFullYear(),
+			},
+		})
+	}
+	console.log("Detailed Breakdown", detailedBreakDown)
+
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {
 		totalCars = totalCars + datagot[i].value
 	}
 	res.json({
-		timeseries: datagot,
+		timeseries: detailedBreakDown,
 		totalCars,
 	})
 }
@@ -211,6 +240,7 @@ exports.datefakeTimeSeriesData = async (req, res) => {
 	for (var i = 0; i < datagot.length; i++) {
 		totalCars = totalCars + datagot[i].value
 	}
+	console.log("date fake datagot: ", datagot)
 	res.json({
 		timeseries: datagot,
 		totalCars,

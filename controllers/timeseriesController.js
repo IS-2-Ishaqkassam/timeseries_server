@@ -157,13 +157,34 @@ exports.realTimeSeriesData = async (req, res) => {
 	}
 	console.log("ishaq", detailedBreakDown)
 
+	const response = []
+	for (var i = 0; i < detailedBreakDown.length; i++) {
+		response.push({
+			dayOfWeek: detailedBreakDown[i].dayOfWeek,
+			data: {
+				hourOfDay: detailedBreakDown[i].data.hourOfDay + ":00",
+				count: detailedBreakDown[i].data.count,
+				month: detailedBreakDown[i].data.month,
+				date_month:
+					"Date: " +
+					detailedBreakDown[i].data.date +
+					"/" +
+					detailedBreakDown[i].data.month,
+				date: detailedBreakDown[i].data.date,
+				year: detailedBreakDown[i].data.year,
+			},
+		})
+	}
+
+	console.log("response", response)
+
 	var totalCars = 0
 	for (var i = 0; i < resultss.length; i++) {
 		totalCars = totalCars + resultss[i].count
 	}
 	console.log("total cars", totalCars)
 	res.json({
-		timeseries: detailedBreakDown,
+		timeseries: response,
 		totalCars,
 	})
 }
@@ -204,12 +225,32 @@ exports.fakeTimeSeriesData = async (req, res) => {
 	}
 	console.log("Detailed Breakdown", detailedBreakDown)
 
+	const response = []
+	for (var i = 0; i < detailedBreakDown.length; i++) {
+		response.push({
+			dayOfWeek: detailedBreakDown[i].dayOfWeek,
+			data: {
+				hourOfDay: detailedBreakDown[i].data.hourOfDay + ":00",
+				count: detailedBreakDown[i].data.count,
+				month: detailedBreakDown[i].data.month,
+				date_month:
+					"Date: " +
+					detailedBreakDown[i].data.date +
+					"/" +
+					detailedBreakDown[i].data.month,
+				date: detailedBreakDown[i].data.date,
+				year: detailedBreakDown[i].data.year,
+			},
+		})
+	}
+	console.log("response", response)
+
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {
 		totalCars = totalCars + datagot[i].value
 	}
 	res.json({
-		timeseries: detailedBreakDown,
+		timeseries: response,
 		totalCars,
 	})
 }

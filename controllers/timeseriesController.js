@@ -2,13 +2,16 @@ const timeseriesModel = require("../models/Timeseries")
 const tempModel = require("../models/Temp")
 
 exports.read = async (req, res) => {
-	timeseriesModel.find({}, (err, result) => {
-		if (err) {
-			res.send(err)
-		}
+	const data = await timeseriesModel.find({})
 
-		res.send(result)
-	})
+	const formattedData = []
+	for (var i = 0; i < data.length; i++) {
+		formattedData.push({
+			timestamp: new Date(data[i].timestamp).toLocaleString(),
+			number_plate: data[i].number_plate,
+		})
+	}
+	res.status(200).json(formattedData)
 }
 
 exports.predict = async (req, res) => {
@@ -155,7 +158,6 @@ exports.realTimeSeriesData = async (req, res) => {
 			},
 		})
 	}
-	console.log("ishaq", detailedBreakDown)
 
 	const response = []
 	for (var i = 0; i < detailedBreakDown.length; i++) {
@@ -176,7 +178,6 @@ exports.realTimeSeriesData = async (req, res) => {
 		})
 	}
 
-	console.log("response", response)
 
 	var totalCars = 0
 	for (var i = 0; i < resultss.length; i++) {
@@ -223,7 +224,6 @@ exports.fakeTimeSeriesData = async (req, res) => {
 			},
 		})
 	}
-	console.log("Detailed Breakdown", detailedBreakDown)
 
 	const response = []
 	for (var i = 0; i < detailedBreakDown.length; i++) {
@@ -243,7 +243,6 @@ exports.fakeTimeSeriesData = async (req, res) => {
 			},
 		})
 	}
-	console.log("response", response)
 
 	var totalCars = 0
 	for (var i = 0; i < datagot.length; i++) {
@@ -281,7 +280,6 @@ exports.datefakeTimeSeriesData = async (req, res) => {
 	for (var i = 0; i < datagot.length; i++) {
 		totalCars = totalCars + datagot[i].value
 	}
-	console.log("date fake datagot: ", datagot)
 	res.json({
 		timeseries: datagot,
 		totalCars,

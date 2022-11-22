@@ -13,7 +13,6 @@ exports.createResident = async (req, res) => {
 			resident_house_number,
 			vehicles,
 		})
-		console.log("resident posted successfully")
 	} catch (err) {
 		console.log(err)
 		res.status(400).json({
@@ -26,12 +25,10 @@ exports.getAllResidents = async (req, res) => {
 	try {
 		await residentsModel.find({}, (err, residents) => {
 			if (err) {
-				console.log("error getting all residents")
 				return res.status(404).json({
 					message: "error getting all residents",
 				})
 			} else {
-				console.log("All residents retrieved successfully")
 				res.status(200).json(residents)
 			}
 		})
@@ -44,12 +41,10 @@ exports.getOneResident = async (req, res) => {
 	try {
 		await residentsModel.findById(id, (err, resident) => {
 			if (err) {
-				console.log("error getting one residents")
 				return res.status(404).json({
 					message: "error getting all residents",
 				})
 			} else {
-				console.log("Searched resident retrieved successfully")
 				res.status(200).json(resident)
 			}
 		})
@@ -68,7 +63,6 @@ exports.editResident = async (req, res) => {
 			resident_house_number,
 		})
 
-		console.log("resident updated successfully")
 		res.status(200).json({ message: "successful" })
 	} catch (err) {
 		res.status(400).json({

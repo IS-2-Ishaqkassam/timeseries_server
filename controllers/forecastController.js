@@ -14,7 +14,7 @@ exports.getForecast = async (req, res) => {
 				time: new Date(data.forecast[i].timestamp).toLocaleString(),
 			})
 		}
-		console.log("formatted", formattedData)
+		console.log("getForecast", formattedData)
 		res.status(200).json(formattedData)
 	} catch (error) {
 		console.log("error in getForecast", error)

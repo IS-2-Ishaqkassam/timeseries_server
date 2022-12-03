@@ -4,8 +4,6 @@ exports.createResident = async (req, res) => {
 	const { resident_name, resident_email, resident_house_number, vehicles } =
 		req.body
 
-	console.log(req.body)
-
 	try {
 		await residentsModel.create({
 			resident_name,
@@ -14,7 +12,6 @@ exports.createResident = async (req, res) => {
 			vehicles,
 		})
 	} catch (err) {
-		console.log(err)
 		res.status(400).json({
 			message: err.message,
 		})
@@ -53,10 +50,7 @@ exports.getOneResident = async (req, res) => {
 
 exports.editResident = async (req, res) => {
 	const { id } = req.params
-	console.log("got id", id)
 	const { resident_name, resident_email, resident_house_number } = req.body
-	console.log(req.params)
-	console.log(req.body)
 	try {
 		await residentsModel.findOneAndUpdate(
 			{ _id: id },

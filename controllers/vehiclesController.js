@@ -18,7 +18,6 @@ exports.getOneVehicle = async (req, res) => {
 
 exports.editVehicle = async (req, res) => {
 	const { id } = req.params
-	const { resident_name, resident_email, resident_house_number } = req.body
 
 	try {
 		await residentsModel.findOneAndUpdate(
@@ -30,6 +29,28 @@ exports.editVehicle = async (req, res) => {
 		)
 
 		res.status(200).json({ message: "successful" })
+	} catch (err) {
+		res.status(400).json({
+			message: "error",
+			error: err.message,
+		})
+	}
+}
+
+exports.deleteVehicle = async (req, res) => {
+	const { id } = req.params
+	console.log("delete id", id)
+
+	try {
+		await residentsModel.updateOne(
+			{ "vehicles._id": id },
+			{
+				$pull: { vehicles: { _id: id } },
+			}
+		)
+
+		res.status(200).json({ message: "successful" })
+		// res.status(200).json({ message: "successful" })
 	} catch (err) {
 		res.status(400).json({
 			message: "error",

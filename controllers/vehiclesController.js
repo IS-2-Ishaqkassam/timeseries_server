@@ -19,7 +19,7 @@ exports.getOneVehicle = async (req, res) => {
 exports.editVehicle = async (req, res) => {
 	const { id } = req.params
 	const { resident_name, resident_email, resident_house_number } = req.body
-	
+
 	try {
 		await residentsModel.findOneAndUpdate(
 			{ "vehicles._id": id },

@@ -53,21 +53,22 @@ exports.getOneResident = async (req, res) => {
 
 exports.editResident = async (req, res) => {
 	const { id } = req.params
+	console.log("got id", id)
 	const { resident_name, resident_email, resident_house_number } = req.body
 	console.log(req.params)
 	console.log(req.body)
 	try {
-		await residentsModel.findOneAndUpdate(id, {
-			resident_name,
-			resident_email,
-			resident_house_number,
-		})
-
-		res.status(200).json({ message: "successful" })
+		await residentsModel.findOneAndUpdate(
+			{ _id: id },
+			{
+				resident_name: resident_name,
+				resident_email: resident_email,
+				resident_house_number: resident_house_number,
+			},
+			{ new: true }
+		)
+		return res.status(200).json({ message: "success" })
 	} catch (err) {
-		res.status(400).json({
-			message: "error",
-			error: err.message,
-		})
+		console.log("error", err)
 	}
 }

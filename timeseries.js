@@ -1,9 +1,9 @@
 const ARIMA = require("arima")
 
 // Synthesize timeseries
-const ts = Array(24)
+const ts = Array(54)
 	.fill(0)
-	.map((_, i) => i + Math.random() / 5)
+	.map((_, i) => i + Math.random()*3)
 // const app = express()
 
 const arima = new ARIMA({

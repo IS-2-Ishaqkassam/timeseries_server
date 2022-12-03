@@ -1,5 +1,7 @@
 const timeseriesModel = require("../models/Timeseries")
 const tempModel = require("../models/Temp")
+const ARIMA = require("arima")
+var timeseries = require("timeseries-analysis")
 
 exports.read = async (req, res) => {
 	const data = await timeseriesModel.find({})
@@ -12,31 +14,6 @@ exports.read = async (req, res) => {
 		})
 	}
 	res.status(200).json(formattedData)
-}
-
-exports.predict = async (req, res) => {
-	const agg = [
-		{
-			$project: {
-				date: {
-					$dateToParts: {
-						date: "$timestamp",
-					},
-				},
-				number_plate: 1,
-			},
-		},
-	]
-
-	const cursor = timeseriesModel.aggregate(agg)
-	var results = await cursor
-	timeseriesModel.find({}, (err, result) => {
-		if (err) {
-			res.send(err)
-		}
-		console.log(results)
-		res.send(results)
-	})
 }
 
 exports.group = async (req, res) => {
@@ -178,7 +155,6 @@ exports.realTimeSeriesData = async (req, res) => {
 		})
 	}
 
-
 	var totalCars = 0
 	for (var i = 0; i < resultss.length; i++) {
 		totalCars = totalCars + resultss[i].count
@@ -198,11 +174,11 @@ exports.fakeTimeSeriesData = async (req, res) => {
 	}
 	const dummyVehicles = []
 	for (var i = 0; i < 672; i++) {
-		for (var j = 0; j < 40; j++) {
-			dummyVehicles.push(Math.floor(Math.random(1, 40) * j))
+		for (var j = 0; j < 100; j++) {
+			dummyVehicles.push(Math.floor(Math.random(1, 100) * j))
 		}
 	}
-	const datagot = []
+	var datagot = []
 
 	for (var i = 0; i < dates.length; i++) {
 		datagot.push({
@@ -221,6 +197,7 @@ exports.fakeTimeSeriesData = async (req, res) => {
 				month: new Date(datagot[i].timestamp).getMonth() + 1,
 				date: new Date(datagot[i].timestamp).getDate(),
 				year: new Date(datagot[i].timestamp).getFullYear(),
+				timestamp: new Date(datagot[i].timestamp),
 			},
 		})
 	}
@@ -231,7 +208,7 @@ exports.fakeTimeSeriesData = async (req, res) => {
 			dayOfWeek: detailedBreakDown[i].dayOfWeek,
 			data: {
 				hourOfDay: detailedBreakDown[i].data.hourOfDay + ":00",
-				count: detailedBreakDown[i].data.count,
+				vehicle_count: detailedBreakDown[i].data.count,
 				month: detailedBreakDown[i].data.month,
 				date_month:
 					"Date: " +
@@ -239,6 +216,7 @@ exports.fakeTimeSeriesData = async (req, res) => {
 					"/" +
 					detailedBreakDown[i].data.month,
 				date: detailedBreakDown[i].data.date,
+				timestamp: detailedBreakDown[i].data.timestamp,
 				year: detailedBreakDown[i].data.year,
 			},
 		})
@@ -253,6 +231,15 @@ exports.fakeTimeSeriesData = async (req, res) => {
 		totalCars,
 	})
 }
+
+exports.predict = async (req, res) => {
+	console.log("predict", req.body)
+	// const data = req.body
+
+	// var t = new timeseries.main(timeseries.adapter.sin({ cycles: 4 }))
+	// console.log("t", t)
+}
+
 exports.datefakeTimeSeriesData = async (req, res) => {
 	var date = new Date()
 	var dates = []

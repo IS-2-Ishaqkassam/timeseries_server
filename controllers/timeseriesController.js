@@ -101,12 +101,7 @@ exports.realTimeSeriesData = async (req, res) => {
 		},
 		{
 			$project: {
-				date: "$date", //day-month-year-hour-dayofweek(startingfromsunday)-
-				// hour: "$_id.hour",
-				// date: {
-				// 	// hour: "$_id.hour",
-				// 	$dateToString: { format: "%Y-%d-%m-%H-%w", date: "$date" },//day-month-year-hour-dayofweek(startingfromsunday)-
-				// },
+				date: "$date",
 				count: 1,
 				_id: 0,
 			},
